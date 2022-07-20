@@ -1,5 +1,5 @@
-active_region bo$obo$obo$b2o!
+active_region 3o3b3o$bo5bo!
 catalysts 2o$2o! 2o$obo$2bo$2b2o! bo$obo$bo! 3bob2o$b3ob2o$o6b$b3ob2o$3bobob$3bobob$4bo! bo$obo$2o!
-num_cats 3
-duration 64
+num_cats 2
+duration 32
 bounding_box 20 20

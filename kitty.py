@@ -50,15 +50,23 @@ rect = active_region.bounding_box
 active_region = active_region((bbx - rect[2]) // 2, (bby - rect[3]) // 2)
 
 # Helper funcs:
+def touch(patt1, patt2):
+    for disp in [[0, 0], [0, -1], [0, 1], [1, 0], [-1, 0], [-1, -1], [-1, 1], [1, -1], [1, 1]]:
+        if patt1 & patt2(*disp):
+            return True
+    return False
+
 def test_cats(active_region, cat): # Test a set of catalysts
-    if active_region & cat: # sanity check
+    if touch(active_region, cat): # sanity check
         return False
     if cat[1] != cat:
         return False
 
     test_pattern = active_region | cat
     test_pattern = test_pattern[duration]
-    return (test_pattern & cat) == cat
+    
+    active_region2 = test_pattern - cat
+    return (test_pattern & cat) == cat and not touch(active_region2, cat)
 
 def move_cats(cat): # Returns a list of all possible translations/reflections of `cat` fitting the bounding box
     refl = []
@@ -89,7 +97,7 @@ def dfs(i, patt):
     catalysts2 = copy.copy(catalysts)
     random.shuffle(catalysts2)
     for cat in catalysts2:
-        if not patt & cat:
+        if not touch(patt, cat):
             dfs(i + 1, patt | cat)
 
 dfs(0, lt.pattern("!"))
